@@ -1,1 +1,1 @@
-https://github.com/dmplng-bits.github.io/Resume/
+https://dmplng-bits.github.io/Resume/
