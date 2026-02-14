@@ -35,6 +35,20 @@
 
     gtag('config', 'G-SPMW2521NC');
   </script>
+
+  <!-- LinkedIn QR redirect tracker -->
+  <script>
+    (function () {
+      var params = new URLSearchParams(window.location.search);
+      if (params.get('go') === 'linkedin') {
+        gtag('event', 'linkedin_qr_scan', {
+          event_category: 'QR',
+          event_label: 'LinkedIn Profile'
+        });
+        window.location.replace('https://www.linkedin.com/in/preet-manocha');
+      }
+    })();
+  </script>
 </head>
 
 <body>
@@ -388,8 +402,12 @@
       renderQR('qr-canvas', url);
     })();
 
-    // LinkedIn QR
-    renderQR('qr-canvas-linkedin', 'https://www.linkedin.com/in/preet-manocha');
+    // LinkedIn QR — points to resume site with redirect param so we can track scans
+    (function () {
+      const RESUME_BASE = 'https://dmpling-bits.github.io/Resume';
+      const base = window.location.protocol === 'file:' ? RESUME_BASE : window.location.origin + window.location.pathname;
+      renderQR('qr-canvas-linkedin', base + '?go=linkedin');
+    })();
 
     function downloadQR(canvasId, filename) {
       const canvas = document.getElementById(canvasId);
