@@ -4,15 +4,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Preet Singh Manocha — Software Engineer &amp; Product Builder</title>
+  <title>Preet Singh — Software Engineer &amp; Product Builder</title>
   <meta name="description"
     content="Software Engineer shipping consumer apps used by millions. Former Apple engineer. iOS, product strategy, and full-stack delivery.">
-  <meta name="author" content="Preet Singh Manocha">
+  <meta name="author" content="Preet Singh">
 
   <!-- Open Graph -->
-  <meta property="og:title" content="Preet Singh Manocha — Software Engineer & Product Builder">
+  <meta property="og:title" content="Preet Singh — Senior Software Engineer & Product Builder">
   <meta property="og:description"
-    content="Shipped consumer apps used by millions. Former Apple engineer. iOS, product strategy, and full-stack delivery.">
+    content="Shipping consumer apps. Former Apple engineer. iOS, product strategy, and full-stack delivery.">
   <meta property="og:type" content="website">
 
   <!-- Block AI crawlers and scrapers -->
@@ -35,6 +35,20 @@
 
     gtag('config', 'G-SPMW2521NC');
   </script>
+
+  <!-- LinkedIn QR redirect tracker -->
+  <script>
+    (function () {
+      var params = new URLSearchParams(window.location.search);
+      if (params.get('go') === 'linkedin') {
+        gtag('event', 'linkedin_qr_scan', {
+          event_category: 'QR',
+          event_label: 'LinkedIn Profile'
+        });
+        window.location.replace('https://www.linkedin.com/in/preet-manocha');
+      }
+    })();
+  </script>
 </head>
 
 <body>
@@ -42,7 +56,7 @@
   <!-- ====== NAV ====== -->
   <nav>
     <div class="nav-inner">
-      <span class="nav-name">Preet Singh Manocha</span>
+      <span class="nav-name">Preet Singh</span>
       <ul class="nav-links">
         <li><a href="#experience">Experience</a></li>
         <li><a href="#skills">Skills</a></li>
@@ -54,11 +68,11 @@
   <!-- ====== HERO ====== -->
   <section class="section hero">
     <span class="hero-overline">Software Engineer &amp; Product Builder</span>
-    <h1>Preet Singh Manocha</h1>
+    <h1>Preet Singh</h1>
     <p>
-      Shipped consumer apps used by millions across mobile, developer tools,
-      and cloud infrastructure. Equal parts engineer and product thinker,
-      focused on building the right thing and building it well.
+      Shipped consumer apps at scale, developer tools, and cloud infrastructure.
+      Equal parts engineer and product thinker, building at the intersection of mobile architecture,
+      privacy-first design, and AI. Focused on delivering impactful, well-crafted software
     </p>
     <div class="hero-links">
       <a href="https://www.linkedin.com/in/preet-manocha" target="_blank" rel="noopener">
@@ -77,14 +91,12 @@
 
     <div class="role fade-in stagger-1">
       <div class="role-header">
-        <div class="role-company">J.B.S Ltd</div>
-        <div class="role-title">Software Engineer / Product Owner</div>
-        <div class="role-meta">May 2023 &ndash; Jul 2025</div>
+        <div class="role-company">J.B.S. Ltd</div>
+        <div class="role-title">Software Engineer / Techincal Lead </div>
       </div>
       <ul>
         <li>Led the full product lifecycle, from requirements through architecture to a live App Store release.</li>
         <li>Designed scalable, modular systems that supported rapid feature delivery and long-term maintainability.</li>
-        <li>Set up experimentation workflows that caught critical bugs before they reached users.</li>
       </ul>
     </div>
 
@@ -99,8 +111,6 @@
           codebases with Agile workflows.</li>
         <li>Collaborated with QA, designers, and partner teams to triage, prioritize, and resolve bugs, improving
           quality and release confidence.</li>
-        <li>Contributed to secure data handling practices and performance-conscious UI implementations in high-traffic
-          Apple apps.</li>
       </ul>
     </div>
 
@@ -276,7 +286,8 @@
           <p class="qr-hint">This Resume</p>
         </div>
         <div class="qr-actions">
-          <button class="qr-download" onclick="downloadQR('qr-canvas', 'preet-singh-manocha-resume-qr.png')" aria-label="Download resume QR code as PNG">
+          <button class="qr-download" onclick="downloadQR('qr-canvas', 'preet-singh-resume-qr.png')"
+            aria-label="Download resume QR code as PNG">
             Download <span class="arrow">&#8595;</span>
           </button>
         </div>
@@ -287,7 +298,8 @@
           <p class="qr-hint">LinkedIn</p>
         </div>
         <div class="qr-actions">
-          <button class="qr-download" onclick="downloadQR('qr-canvas-linkedin', 'preet-singh-manocha-linkedin-qr.png')" aria-label="Download LinkedIn QR code as PNG">
+          <button class="qr-download" onclick="downloadQR('qr-canvas-linkedin', 'preet-singh-linkedin-qr.png')"
+            aria-label="Download LinkedIn QR code as PNG">
             Download <span class="arrow">&#8595;</span>
           </button>
         </div>
@@ -388,8 +400,12 @@
       renderQR('qr-canvas', url);
     })();
 
-    // LinkedIn QR
-    renderQR('qr-canvas-linkedin', 'https://www.linkedin.com/in/preet-manocha');
+    // LinkedIn QR — points to resume site with redirect param so we can track scans
+    (function () {
+      const RESUME_BASE = 'https://dmpling-bits.github.io/Resume';
+      const base = window.location.protocol === 'file:' ? RESUME_BASE : window.location.origin + window.location.pathname;
+      renderQR('qr-canvas-linkedin', base + '?go=linkedin');
+    })();
 
     function downloadQR(canvasId, filename) {
       const canvas = document.getElementById(canvasId);
