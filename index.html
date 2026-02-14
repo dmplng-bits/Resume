@@ -268,16 +268,29 @@
 
   <!-- ====== QR CODE ====== -->
   <section id="qr" class="section content-section qr-section">
-    <div class="section-label fade-in">Share This Resume</div>
-    <div class="qr-container fade-in">
-      <div class="qr-card">
-        <canvas id="qr-canvas"></canvas>
-        <p class="qr-hint">Scan to view this resume on any device</p>
+    <div class="section-label fade-in">Share</div>
+    <div class="qr-pair fade-in">
+      <div class="qr-container">
+        <div class="qr-card">
+          <canvas id="qr-canvas"></canvas>
+          <p class="qr-hint">This Resume</p>
+        </div>
+        <div class="qr-actions">
+          <button class="qr-download" onclick="downloadQR('qr-canvas', 'preet-singh-manocha-resume-qr.png')" aria-label="Download resume QR code as PNG">
+            Download <span class="arrow">&#8595;</span>
+          </button>
+        </div>
       </div>
-      <div class="qr-actions">
-        <button class="qr-download" onclick="downloadQR()" aria-label="Download QR code as PNG">
-          Download QR <span class="arrow">&#8595;</span>
-        </button>
+      <div class="qr-container">
+        <div class="qr-card">
+          <canvas id="qr-canvas-linkedin"></canvas>
+          <p class="qr-hint">LinkedIn</p>
+        </div>
+        <div class="qr-actions">
+          <button class="qr-download" onclick="downloadQR('qr-canvas-linkedin', 'preet-singh-manocha-linkedin-qr.png')" aria-label="Download LinkedIn QR code as PNG">
+            Download <span class="arrow">&#8595;</span>
+          </button>
+        </div>
       </div>
     </div>
   </section>
@@ -341,16 +354,12 @@
   <!-- ====== QR CODE GENERATOR (lightweight, zero-dependency) ====== -->
   <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js"></script>
   <script>
-    // Generate QR code — uses deployed URL, falls back to current page
-    (function () {
-      // TODO: Replace with your actual GitHub Pages URL
-      const RESUME_URL = 'https://dmpling-bits.github.io/Resume';
-      const url = window.location.protocol === 'file:' ? RESUME_URL : window.location.href;
+    function renderQR(canvasId, data) {
       const qr = qrcode(0, 'M');
-      qr.addData(url);
+      qr.addData(data);
       qr.make();
 
-      const canvas = document.getElementById('qr-canvas');
+      const canvas = document.getElementById(canvasId);
       const ctx = canvas.getContext('2d');
       const moduleCount = qr.getModuleCount();
       const size = 200;
@@ -359,11 +368,9 @@
       canvas.width = size;
       canvas.height = size;
 
-      // White background
       ctx.fillStyle = '#ffffff';
       ctx.fillRect(0, 0, size, size);
 
-      // Draw modules
       ctx.fillStyle = '#1d1d1f';
       for (let row = 0; row < moduleCount; row++) {
         for (let col = 0; col < moduleCount; col++) {
@@ -372,12 +379,22 @@
           }
         }
       }
+    }
+
+    // Resume QR
+    (function () {
+      const RESUME_URL = 'https://dmpling-bits.github.io/Resume';
+      const url = window.location.protocol === 'file:' ? RESUME_URL : window.location.href;
+      renderQR('qr-canvas', url);
     })();
 
-    function downloadQR() {
-      const canvas = document.getElementById('qr-canvas');
+    // LinkedIn QR
+    renderQR('qr-canvas-linkedin', 'https://www.linkedin.com/in/preet-manocha');
+
+    function downloadQR(canvasId, filename) {
+      const canvas = document.getElementById(canvasId);
       const link = document.createElement('a');
-      link.download = 'preet-singh-manocha-resume-qr.png';
+      link.download = filename;
       link.href = canvas.toDataURL('image/png');
       link.click();
     }
