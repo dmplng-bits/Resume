@@ -35,6 +35,20 @@
 
     gtag('config', 'G-SPMW2521NC');
   </script>
+
+  <!-- LinkedIn QR redirect tracker -->
+  <script>
+    (function () {
+      var params = new URLSearchParams(window.location.search);
+      if (params.get('go') === 'linkedin') {
+        gtag('event', 'linkedin_qr_scan', {
+          event_category: 'QR',
+          event_label: 'LinkedIn Profile'
+        });
+        window.location.replace('https://www.linkedin.com/in/preet-manocha');
+      }
+    })();
+  </script>
 </head>
 
 <body>
@@ -79,7 +93,6 @@
       <div class="role-header">
         <div class="role-company">J.B.S Ltd</div>
         <div class="role-title">Software Engineer / Product Owner</div>
-        <div class="role-meta">May 2023 &ndash; Jul 2025</div>
       </div>
       <ul>
         <li>Led the full product lifecycle, from requirements through architecture to a live App Store release.</li>
@@ -276,7 +289,8 @@
           <p class="qr-hint">This Resume</p>
         </div>
         <div class="qr-actions">
-          <button class="qr-download" onclick="downloadQR('qr-canvas', 'preet-singh-manocha-resume-qr.png')" aria-label="Download resume QR code as PNG">
+          <button class="qr-download" onclick="downloadQR('qr-canvas', 'preet-singh-manocha-resume-qr.png')"
+            aria-label="Download resume QR code as PNG">
             Download <span class="arrow">&#8595;</span>
           </button>
         </div>
@@ -287,7 +301,8 @@
           <p class="qr-hint">LinkedIn</p>
         </div>
         <div class="qr-actions">
-          <button class="qr-download" onclick="downloadQR('qr-canvas-linkedin', 'preet-singh-manocha-linkedin-qr.png')" aria-label="Download LinkedIn QR code as PNG">
+          <button class="qr-download" onclick="downloadQR('qr-canvas-linkedin', 'preet-singh-manocha-linkedin-qr.png')"
+            aria-label="Download LinkedIn QR code as PNG">
             Download <span class="arrow">&#8595;</span>
           </button>
         </div>
@@ -388,8 +403,12 @@
       renderQR('qr-canvas', url);
     })();
 
-    // LinkedIn QR
-    renderQR('qr-canvas-linkedin', 'https://www.linkedin.com/in/preet-manocha');
+    // LinkedIn QR — points to resume site with redirect param so we can track scans
+    (function () {
+      const RESUME_BASE = 'https://dmpling-bits.github.io/Resume';
+      const base = window.location.protocol === 'file:' ? RESUME_BASE : window.location.origin + window.location.pathname;
+      renderQR('qr-canvas-linkedin', base + '?go=linkedin');
+    })();
 
     function downloadQR(canvasId, filename) {
       const canvas = document.getElementById(canvasId);
